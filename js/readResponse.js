@@ -21,8 +21,8 @@ var referenceMatrix = [];
 
 var chart;
 
-var theUsername = "kenmansfield";
-var thePassword = "l1IJD9bzklvKHXto0lojGk78ujdzE7J7";
+var theUsername = "";
+var thePassword = "";
 
 var parentHtml;
 
