@@ -103,9 +103,10 @@ function onSubmit()
 <div id="container" style="width:1272px;height:700px;margin:0px;">
 <div id="title" style="position:fixed;left:260px;z-index:-1;font-size:48px;text-align:center;margin-top:70px;color:#092331;opacity:0;">Judicial Case<br>Law Citations</div>
 <div id="bigyear" style="position:fixed;left:175px;z-index:100;font-size:200px;text-align:center;margin-top:160px;color:#000;opacity:0;visibility:hidden;">Welcome</div>
-<div id="author" style="position:fixed;left:585px;z-index:100;font-size:48px;text-align:center;margin-top:573px;color:092331;opacity:0;">
+<div id="author" style="position:fixed;left:385px;z-index:100;font-size:48px;text-align:center;margin-top:573px;color:092331;opacity:0;">
 	
-	<a href="http://knomos.ca" target="_blank"><img src="KM547.png" alt="Try something new. Everyday." title="Ken Mansfield, CS 547." style="width:70px;height:70px;border:solid 1px #111;margin-top:5px;"/></a>
+	<a href="http://knomos.ca" target="_blank"><img src="logo1.png" alt="Knomos student project." title="Ken Mansfield, CS 547." style="width:90px;height:24px;border:solid 1px #111;margin-top:5px;"/></a>
+	<a href="http://ubc.ca" target="_blank"><img src="ubclogo.jpg" alt="CS 547." title="CS 547." style="width:72px;height:72px;border:solid 1px #111;margin-top:5px;"/></a>	
 </div>
 <div id="author2" style="position:fixed;left:5px;z-index:100;font-size:48px;text-align:center;margin-top:562px;color:#111;opacity:0;">
 	
@@ -121,11 +122,14 @@ function onSubmit()
 <iframe id="iframe1" style="margin-left:600px;" src="iframe1.html"></iframe>
 <iframe id="iframe2" style="margin-left:0px;" src="iframe2.html"></iframe>
 
+
+
 </div>
+
 <div  id="bigyear2"  class="dragdealer" style="bottom:0px;left:0px;width:100%;position:fixed;opacity:0; background-color:#ddd;z-index:5000;"></div>
 <div  id="timeslider" title="<-  drag slider, scroll or use arrow keys to change year  ->" class="dragdealer" style="bottom:0px;left:0px;width:100%;position:fixed;opacity:0;">
-<div style="position:fixed;left:5%;z-index:-1;font-size:110%;color:#092331;margin-top:0.4%;"><-  drag slider, scroll or use arrow keys to change year  -></div>
-<div class="handle orange-bar" id="timehandle">2014</div>
+<div style="position:fixed;left:5%;z-index:-1;font-size:100%;color:#092331;margin-top:0.4%;"><-  drag slider, scroll or use arrow keys to change year  -></div>
+<div class="handle orange-bar" id="timehandle" style="text-align:center;vertical-align: middle;height:100%">2014</div>
 </div>
 
 <script>
@@ -229,7 +233,10 @@ function updateTimeSlider(newNumberOfSteps)
 	document.getElementById("container").style.MozTransformOrigin = "0 0";
 	document.getElementById("container").style.msTransformOrigin = "0 0";
 	document.getElementById("container").style.TransformOrigin = "0 0";
-
+	
+	var targetDiv = document.getElementById("timeslider").getElementsByClassName("handle orange-bar")[0];
+	targetDiv.style.fontSize = scal*20;
+	targetDiv.style.verticalAlign = "bottom";
 	};
 	
 	window.onresize = function() {
@@ -262,9 +269,6 @@ function updateTimeSlider(newNumberOfSteps)
 		document.getElementById('title').style.opacity=1;
 	},1000)
 	
-	//setTimeout(function(){
-	//	document.getElementById('reload').style.opacity=1;
-	//},11000)
 	setTimeout(function(){
 		document.getElementById('author').style.opacity=1;
 		document.getElementById('author2').style.opacity=1;
