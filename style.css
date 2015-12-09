@@ -1,6 +1,6 @@
 	@font-face {
-    font-family: "Righteous";
-    src: url(css/Righteous-Regular.ttf) format("truetype");
+    font-family: "CANDARAB";
+    src: url(css/CANDARAB.ttf) format("truetype");
 }
 html,body {
     margin: 0px;
@@ -11,11 +11,11 @@ html,body {
 	body {
 		  overflow: hidden;
 		  margin: 0;
-		  background-color:#333;
-		  font-size: 14px;
-		  color:#ddd;
-		  fill:#665; 
-		  font-family: "Righteous","Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
+		  background-color:#092331;
+		  font-size: 20px;
+		  color: #183646;
+		  fill:#3D5C6D; 
+		  font-family: "CANDARAB","Righteous","Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
   
 		}
 		#author3:hover {
@@ -45,14 +45,14 @@ html,body {
 		  display: block;
 		  font-size: 36px;
 		  font-weight: 300;
-		  color: #665;
+		  color: #5C7785;
 		  position: relative;
 		  /*width: 80px;*/
 		  text-align: center;
 		  width: 30%;
 		  margin: 0 auto;
 		  border: 1px solid;
-		  border-color: #665;
+		  border-color: #5C7785;
 		  cursor: pointer;
 		}
 
@@ -71,7 +71,7 @@ html,body {
 		  display: block;
 		  font-size: 20px;
 		  font-weight: 300;
-		  color: #665;
+		  color: #5C7785;
 		  position: relative;
 		  width: 680px;
 		  text-align: center;
@@ -113,11 +113,11 @@ html,body {
 		}
 
 		text {
-		  font-size: 14px;
+		  font-size: 18px;
 		}
 
 		.titles{
-		  font-size: 18px;
+		  font-size: 20px;
 		}
 
 		.explanation{
@@ -132,7 +132,7 @@ html,body {
 		
 		a {
 			text-decoration: none;
-			color: #665;
+			color: #5C7785;
 		}
 		a:hover, #skip:hover, #reset:hover, #link:hover {
 			text-decoration: underline;

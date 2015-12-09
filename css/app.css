@@ -1,13 +1,13 @@
 #tooltip {
   background-color:rgba(20,20,20,0.75);
   pointer-events: none;
-  font-size: 12px;
+  font-size: 18px;
   z-index: 1000;
-  color: #665;
+  color: #5C7785;
   position: fixed;
   width: 450px;
   border-radius: 6px;
-  border-color: #665;
+  border-color: #092331;
   opacity: 0;
   bottom: 7%;
   left: 15%;
@@ -49,17 +49,17 @@ aside {
 .orange-bar {
 	width: 75px;
 	height: 28px;
-	background: #665;
-	color: #222;
-	font-size: 18px;
+	background: #284655;
+	color: #183646;
+	font-size: 24px;
 	line-height: 26px;
 	text-align: center;
 	font-weight: bold;
 	z-index: 20;
 }
 .orange-bar:hover {
-	background: #997
+	background: 3D5C6D
 }
 .dragdealer .disabled {
-	background: #898989
+	background: 183646
 }

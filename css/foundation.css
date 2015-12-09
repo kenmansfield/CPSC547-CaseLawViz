@@ -1,6 +1,6 @@
 @font-face {
-    font-family: "Righteous";
-    src: url(Righteous-Regular.ttf) format("truetype");
+    font-family: "CANDARAB";
+    src: url(CANDARAB.ttf) format("truetype");
 }
 meta.foundation-version {
   font-family: "/5.4.7/"; }
@@ -44,10 +44,10 @@ body {
 
 body {
   background: none;
-  color: #665;
+  color: #183646;
   padding: 0;
   margin: 0;
-  font-family: "Righteous","Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
+  font-family: "CANDARAB","Righteous","Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
   font-weight: normal;
   font-style: normal;
   line-height: 1.5;
@@ -1095,7 +1095,7 @@ button, .button {
   border-style: solid;
   border-width: 0px;
   cursor: pointer;
-  font-family: "Righteous","Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
+  font-family: "CANDARAB","Righteous","Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
   font-weight: normal;
   line-height: 20px;
   margin: 0 0 1.25rem;
@@ -1110,25 +1110,25 @@ button, .button {
   padding-bottom: 1.0625rem;
   padding-left: 2rem;
   font-size: 1rem;
-  background-color: #665;
-  color: #222;
+  background-color: #5C7785;
+  color: #092331;
   transition: background-color 300ms ease-out; }
   button:hover, button:focus, .button:hover, .button:focus {
-    background-color: #997; }
+    background-color: #092331; }
   button.secondary, .button.secondary {
-    background-color: #c9beb9;
-    border-color: #a7968d;
-    color: #333333; }
+    background-color: #5C7785;
+    border-color: #3D5C6D;
+    color: #092331; }
     button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button.secondary:focus {
-      background-color: #a7968d; }
+      background-color: #183646; }
     button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button.secondary:focus {
       color: white; }
   button.success, .button.success {
-    background-color: #56695e;
-    border-color: #45544b;
+    background-color: #284555;
+    border-color: #284555;
     color: white; }
     button.success:hover, button.success:focus, .button.success:hover, .button.success:focus {
-      background-color: #45544b; }
+      background-color: #284555; }
     button.success:hover, button.success:focus, .button.success:hover, .button.success:focus {
       color: white; }
   button.alert, .button.alert {
@@ -1302,7 +1302,7 @@ form .row textarea.columns {
 /* Label Styles */
 label {
   font-size: 0.875rem;
-  color: #665;
+  color: #5C7785;
   cursor: pointer;
   display: block;
   font-weight: normal;
@@ -1627,7 +1627,7 @@ select {
   border-color: #cccccc;
   padding: 0.5rem;
   font-size: 0.875rem;
-  font-family: "Righteous","Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
+  font-family: "CANDARAB","Righteous","Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
   color: rgba(0, 0, 0, 0.75);
   line-height: normal;
   border-radius: 0;
@@ -2712,13 +2712,13 @@ meta.foundation-mq-topbar {
 
 /* Panels */
 .panel {
-  color: #665; }
+  color: #5C7785; }
   .panel > :first-child {
     margin-top: 0; }
   .panel > :last-child {
     margin-bottom: 0; }
   .panel h1, .panel h2, .panel h3, .panel h4, .panel h5, .panel h6, .panel p, .panel li, .panel dl {
-    color: #665; }
+    color: #5C7785; }
   .panel h1, .panel h2, .panel h3, .panel h4, .panel h5, .panel h6 {
     line-height: 1;
     margin-bottom: 0.625rem; }
@@ -3123,7 +3123,7 @@ ul.pagination {
   padding: 0.875rem 0;
   list-style-type: none;
   list-style-position: outside;
-  font-family: font-family: "Righteous","Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
+  font-family: font-family: "CANDARAB","Righteous","Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
    }
   .side-nav li {
     margin: 0 0 0.4375rem 0;
@@ -3140,7 +3140,7 @@ ul.pagination {
     .side-nav li.active > a:first-child:not(.button) {
       color: #84899a;
       font-weight: normal;
-      font-family: font-family: "Righteous","Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
+      font-family: font-family: "CANDARAB","Righteous","Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
    }
     .side-nav li.divider {
       border-top: 1px solid;
@@ -3365,10 +3365,10 @@ p {
 
 /* Default header styles */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Righteous","Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
+  font-family: "CANDARAB","Righteous","Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
   font-weight: normal;
   font-style: normal;
-  color: #665;
+  color: #5C7785;
   text-rendering: optimizeLegibility;
   margin-top: 0.2rem;
   margin-bottom: 0.5rem;

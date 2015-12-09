@@ -62,12 +62,13 @@ function ($window, matrixFactory) {
     var messages = svg.append("text")
       .attr("class", "messages")
       .attr("transform", "translate(80,"+size[1]/1.1+")")
-	  .style("fill","#665")
+	  .style("fill","#5C7785")
 	  .style("font-size","30px")
-      .text("Please select a case and hit search...");
+      .text("Please select a case...");
 
     $scope.drawChords = function (data) {
 
+      messages.text("Updating......")
       messages.attr("opacity", 1);
       messages.transition().duration(2000).attr("opacity", 0);
 

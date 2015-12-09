@@ -4,8 +4,8 @@
 <title>Judicial Case Law Citations</title>
 <style>
 @font-face {
-    font-family: "Righteous";
-    src: url(css/Righteous-Regular.ttf) format("truetype");
+    font-family: "CANDARAB";
+    src: url(css/CANDARAB.ttf) format("truetype");
 }
   html,body {
     margin: 0px;
@@ -14,7 +14,7 @@
 	height: 100%;
 	overflow:hidden;
     background-color: none;
-	font-family: "Righteous","Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
+	font-family: "CANDARAB","Righteous","Trebuchet MS", "Open Sans", Segoe UI light, Verdana, Tahoma, Helvetica, sans-serif;
   font-weight: normal;
   font-style: normal;
   }
@@ -44,8 +44,8 @@
 .orange-bar {
 	width: 8%;
 	height: 100%;
-	background: #665;
-	color: #222;
+	background: #5C7785;
+	color: #092331;
 	font-size: 140%;
 	line-height: 160%;
 	padding-left:0.3%;
@@ -96,55 +96,35 @@ function onSubmit()
 
 <body>
 
-	<form id="authForm">
-	   User Name & Password:&nbsp
-	  <input type="text" name="username" value="username">
-	  <input type="text" name="password" value="password"><br>
-	</form> 
-	
-	<form id="inputForm">
-	   Case Number & Year:&nbsp&nbsp&nbsp&nbsp&nbsp
-	  <input type="number" name="theCaseNum" value="173">  
-	  <input type="number" name="theCaseYear" value="2013">
-	</form>
-	
-<!-- 	<button class="orange-bar" onclick="onSubmit()" id="searchButton" style="margin:0px;padding:0px;top:80px;left:0px;width:60px; height:25px; position:absolute;line-height:20px;font-size:12px;" title="Search Case"> -->
-<!--         Search -->
-<!--      </button> -->
-     
-  	<button class="orange-bar" onclick="onSubmit()" style="height:48px;width:65px;font-size:16px;" >Search</button>
 
-
-
-	<span style="color:red" id="errorMessage"></span>	
 	</head>
 
 	
 <div id="container" style="width:1272px;height:700px;margin:0px;">
-<div id="title" style="position:fixed;left:525px;z-index:-1;font-size:48px;text-align:center;margin-top:70px;color:#111;opacity:0;">Judicial<br/>Case Laws</div>
-<div id="bigyear" style="position:fixed;left:200px;z-index:100;font-size:400px;text-align:center;margin-top:110px;color:#000;opacity:0;visibility:hidden;">2014</div>
-<div id="author" style="position:fixed;left:585px;z-index:100;font-size:48px;text-align:center;margin-top:573px;color:#111;opacity:0;">
+<div id="title" style="position:fixed;left:260px;z-index:-1;font-size:48px;text-align:center;margin-top:70px;color:#092331;opacity:0;">Judicial Case<br>Law Citations</div>
+<div id="bigyear" style="position:fixed;left:175px;z-index:100;font-size:200px;text-align:center;margin-top:160px;color:#000;opacity:0;visibility:hidden;">Welcome</div>
+<div id="author" style="position:fixed;left:585px;z-index:100;font-size:48px;text-align:center;margin-top:573px;color:092331;opacity:0;">
 	
 	<a href="http://knomos.ca" target="_blank"><img src="KM547.png" alt="Try something new. Everyday." title="Ken Mansfield, CS 547." style="width:70px;height:70px;border:solid 1px #111;margin-top:5px;"/></a>
 </div>
 <div id="author2" style="position:fixed;left:5px;z-index:100;font-size:48px;text-align:center;margin-top:562px;color:#111;opacity:0;">
 	
-	<a href="http://www.delimited.io/blog/2014/11/18/interactive-chord-diagrams-in-d3" target="_blank" title="inspired by"><div style="color:#665;">inspired by</div>delimited.io</a><br>
+	<a href="http://www.delimited.io/blog/2014/11/18/interactive-chord-diagrams-in-d3" target="_blank" title="inspired by"><div style="color:3D5C6D;">inspired by</div>delimited.io</a><br>
 
 	
 </div>
-<div id="author3" style="position:fixed;right:10px;z-index:100;font-size:28px;text-align:center;margin-top:620px;color:#665;opacity:0;cursor:pointer;" onclick="window.parent.document.getElementById('content').src='parent.html'" title="reload page">
+<div id="author3" style="position:fixed;right:10px;z-index:100;font-size:28px;text-align:center;margin-top:620px;color:092331;opacity:0;cursor:pointer;" onclick="window.parent.document.getElementById('content').src='parent.html'" title="reload page">
 	reload page
 	
 </div>
 
 <iframe id="iframe1" style="margin-left:600px;" src="iframe1.html"></iframe>
-<!--  <iframe id="iframe2" style="margin-left:611px;" src="iframe2.html"></iframe>-->
+<iframe id="iframe2" style="margin-left:0px;" src="iframe2.html"></iframe>
 
 </div>
 <div  id="bigyear2"  class="dragdealer" style="bottom:0px;left:0px;width:100%;position:fixed;opacity:0; background-color:#ddd;z-index:5000;"></div>
 <div  id="timeslider" title="<-  drag slider, scroll or use arrow keys to change year  ->" class="dragdealer" style="bottom:0px;left:0px;width:100%;position:fixed;opacity:0;">
-<div style="position:fixed;left:5%;z-index:-1;font-size:110%;color:#222;margin-top:0.4%;"><-  drag slider, scroll or use arrow keys to change year  -></div>
+<div style="position:fixed;left:5%;z-index:-1;font-size:110%;color:#092331;margin-top:0.4%;"><-  drag slider, scroll or use arrow keys to change year  -></div>
 <div class="handle orange-bar" id="timehandle">2014</div>
 </div>
 
@@ -260,7 +240,7 @@ function updateTimeSlider(newNumberOfSteps)
 	setTimeout(function()
 	{
 		document.getElementById('timeslider').style.opacity=0;
-	},5000)
+	},1000)
 	
 	setTimeout(function(){
 				setTimeout(function(){
@@ -276,11 +256,11 @@ function updateTimeSlider(newNumberOfSteps)
 				document.getElementById('bigyear').style.opacity=0.3;
 				document.getElementById('bigyear2').style.visibility='visible';
 				document.getElementById('bigyear2').style.opacity=0.5;},
-			8100);
+			2000);
 	
 	setTimeout(function(){
 		document.getElementById('title').style.opacity=1;
-	},10000)
+	},1000)
 	
 	//setTimeout(function(){
 	//	document.getElementById('reload').style.opacity=1;
@@ -289,7 +269,7 @@ function updateTimeSlider(newNumberOfSteps)
 		document.getElementById('author').style.opacity=1;
 		document.getElementById('author2').style.opacity=1;
 		document.getElementById('author3').style.opacity=1;
-	},12000)
+	},2000)
 </script>
 </body>
 

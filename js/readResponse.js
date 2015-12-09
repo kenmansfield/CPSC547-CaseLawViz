@@ -21,8 +21,8 @@ var referenceMatrix = [];
 
 var chart;
 
-var theUsername = "";
-var thePassword = "";
+var theUsername = "kenmansfield";
+var thePassword = "l1IJD9bzklvKHXto0lojGk78ujdzE7J7";
 
 var parentHtml;
 
@@ -39,7 +39,7 @@ function dataSubmitted()
 	// Start with our very first. 
 	// Replace this in the future with whatever our input is.
 	//d3.select('#chart_placeholder svg').remove();
-	var form = window.parent.document.getElementById('content').contentWindow.document.getElementById('inputForm');
+	var form = parentHtml.getElementById('iframe2').contentWindow.document.getElementById('inputForm');
 	
 	var caseNumber = form.theCaseNum.value;
 	var caseYear =  form.theCaseYear.value;
@@ -55,19 +55,19 @@ function dataSubmitted()
 
 function statusFinishedLoading(data)
 {
-	parentHtml.getElementById("errorMessage").innerHTML = "Loaded";
-	window.parent.document.getElementById('content').contentWindow.document.getElementById('iframe1').contentWindow.angular.element("body").scope().updateData(data);
+	parentHtml.getElementById('iframe2').contentWindow.document.getElementById("errorMessage").innerHTML = "Loaded";
+	parentHtml.getElementById('iframe1').contentWindow.angular.element("body").scope().updateData(data);
 }
  
 function statusLoading(loadedIndex)
 {
-	parentHtml.getElementById("errorMessage").innerHTML = "Loading: " + loadedIndex;	
+	parentHtml.getElementById('iframe2').contentWindow.document.getElementById("errorMessage").innerHTML = "Loading: " + loadedIndex;	
 }
 
 function newRequest()
 {
 	var xmlhttp = new XMLHttpRequest();
-	var form = window.parent.document.getElementById('content').contentWindow.document.getElementById('authForm');
+	var form = parentHtml.getElementById('iframe2').contentWindow.document.getElementById('authForm');
 	theUsername = form.username.value;
 	thePassword =  form.password.value;
 
@@ -81,13 +81,14 @@ function newRequest()
 			//handle error.
 			if(xmlhttp.status == 401 || xmlhttp.status == 404)
 			{
-				parentHtml.getElementById("errorMessage").innerHTML = xmlhttp.responseText;
+				parentHtml.getElementById('iframe2').contentWindow.document.getElementById("errorMessage").innerHTML = xmlhttp.responseText;
 			}
 		}
 	}
 	xmlhttp.open("GET", url, true);
 	
-	xmlhttp.setRequestHeader ("Authorization", "Basic " + btoa(theUsername + ":" + thePassword));	
+	xmlhttp.setRequestHeader ("Authorization", "Basic " + btoa("kenmansfield" + ":" + "l1IJD9bzklvKHXto0lojGk78ujdzE7J7"));
+	//xmlhttp.setRequestHeader ("Authorization", "Basic " + btoa(theUsername + ":" + thePassword));	
 	xmlhttp.send();
 }
 
