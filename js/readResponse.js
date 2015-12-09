@@ -21,8 +21,8 @@ var referenceMatrix = [];
 
 var chart;
 
-var theUsername = "kenmansfield";
-var thePassword = "l1IJD9bzklvKHXto0lojGk78ujdzE7J7";
+var theUsername = "";
+var thePassword = "";
 
 var parentHtml;
 
@@ -87,8 +87,7 @@ function newRequest()
 	}
 	xmlhttp.open("GET", url, true);
 	
-	xmlhttp.setRequestHeader ("Authorization", "Basic " + btoa("kenmansfield" + ":" + "l1IJD9bzklvKHXto0lojGk78ujdzE7J7"));
-	//xmlhttp.setRequestHeader ("Authorization", "Basic " + btoa(theUsername + ":" + thePassword));	
+	xmlhttp.setRequestHeader ("Authorization", "Basic " + btoa(theUsername + ":" + thePassword));	
 	xmlhttp.send();
 }
 
