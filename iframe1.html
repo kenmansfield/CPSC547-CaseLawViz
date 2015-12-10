@@ -22,7 +22,7 @@
         </article>
       </div>
 	  
-		<div style="position:fixed;left:260px;z-index:-1;font-size:38px;color:#3D5C6D">Cases</div>
+		<div style="position:fixed;left:200px;z-index:-1;font-size:38px;color:#3D5C6D">Citations Between Cases</div>
 		<div id="total" style="position:fixed;left:225px;top:290px;z-index:-1;font-size:78px;color:#5C7785;text-align:center;width:200px;opacity:0;"></div>
 		
       <aside class="large-3 small-4" style="position:fixed;left:5px;">
@@ -81,6 +81,8 @@
     <script src="js/chordDirective.js"></script>
     <script>
       $(document).foundation();
+      
+      document.addEventListener("keydown", parent.keyPresses, false);
     </script>
   </body>
 </html>

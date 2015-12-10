@@ -1,5 +1,5 @@
 /**
- * 
+ * Paletton base color: #183747
  */
 
 var url = "http://app.knomos.ca/api/cases/bcca/2013/173/citations";
@@ -21,8 +21,8 @@ var referenceMatrix = [];
 
 var chart;
 
-var theUsername = "";
-var thePassword = "";
+var theUsername = "kenmansfield";
+var thePassword = "l1IJD9bzklvKHXto0lojGk78ujdzE7J7";
 
 var parentHtml;
 
@@ -46,9 +46,10 @@ function dataSubmitted()
 	
 	url = "http://app.knomos.ca/api/cases/bcca/" + caseYear + 
 	"/" + caseNumber + "/citations";
-		
-	caseIndices.push("" + caseYear + caseNumber);
-	namesArray.push("" + caseYear + caseNumber);
+	
+	var caseName = caseYear + "-" + caseNumber;
+	caseIndices.push(caseName);
+	namesArray.push(caseName);
 	
 	newRequest();
 }
@@ -61,10 +62,10 @@ function statusFinishedLoading(data)
  
 function statusLoading(loadedIndex)
 {
-	var loadingText = "Loading: " + loadIndex;
+	var loadingText = "Loading: " + loadedIndex;
 	if(caseArray[0] && caseArray[0].length > 0)
 	{
-		loadingText = loadingText + "of " + caseArray[0].length;
+		loadingText = loadingText + " of " + caseArray[0].length;
 	}
 	parentHtml.getElementById('iframe2').contentWindow.document.getElementById("errorMessage").innerHTML = loadingText;	
 }
@@ -124,7 +125,7 @@ function referenceLoad(response)
 		return;
 	}
 	
-	caseIndices.push("" + caseArray[0][index].case_year + caseArray[0][index].case_num);
+	caseIndices.push(caseArray[0][index].case_year + "-" + caseArray[0][index].case_num);
 	
 	url = "http://app.knomos.ca/api/cases/bcca/" + caseArray[0][index].case_year + 
 		"/" + caseArray[0][index].case_num + "/citations";
@@ -181,7 +182,7 @@ function createUniqueNameList()
 		for(j = 0; j < caseArray[i].length; j++)
 		{
 			//probably need to change this to somethign more informative. 
-			var name = "" + caseArray[i][j].case_year + caseArray[i][j].case_num;
+			var name = caseArray[i][j].case_year + "-" + caseArray[i][j].case_num;
 			if(namesArray.indexOf(name) == -1)
 			{
 				namesArray.push(name);
@@ -221,7 +222,7 @@ function buildMatrix()
 				//This goes through that cases entire list of citations (including 2nd degree citations.
 				for(z = 0; z < caseArray[caseArrayIndice].length; z++)
 				{
-					var tempString = "" + caseArray[caseArrayIndice][z].case_year + caseArray[caseArrayIndice][z].case_num;
+					var tempString = caseArray[caseArrayIndice][z].case_year + "-" + caseArray[caseArrayIndice][z].case_num;
 					if(tempString == namesArray[j])
 					{
 						
@@ -274,7 +275,7 @@ function LoadD3Data()
 			for(z = 0; z < caseArray[caseArrayIndice].length; z++)
 			{
 				var theCase = caseArray[caseArrayIndice][z];
-				var tempString = "" + theCase.case_year + theCase.case_num;
+				var tempString = theCase.case_year + "-" + theCase.case_num;
 				
 				//if(tempString == namesArray[i])
 				{
@@ -283,9 +284,10 @@ function LoadD3Data()
 						var obj = {};
 						obj.importer1 = namesArray[i];
 						obj.importer2 = tempString;
-						obj.flow1 = 2;
+						obj.flow1 = 3;
 						obj.flow2 = 1;
 						obj.year = theCase.case_year;
+						obj.cited_by = theCase.cited_by;
 						citedByArray.push(obj);
 					}
 				}
@@ -294,7 +296,7 @@ function LoadD3Data()
 		}
 	}
 	
-	parentHtml.defaultView.updateTimeSlider(citedByArray.length - 1);
+	parentHtml.defaultView.updateTimeSlider(getPrimaryCasesArray().length);
 	statusFinishedLoading(citedByArray);
 }
 
@@ -306,17 +308,82 @@ function compare(a,b) {
 	  return 0;
 	}
 
-function getSelectedCase(index)
+function getPrimaryCasesArray()
 {
+	var ret;
 	if(citedByArray)
 	{
 		var theArray = citedByArray.sort(compare);
-		
-		if(index < citedByArray.length)
-		{
-			return theArray[index].importer1;
-		}
+	
+	    var ret = [];
+	    ret.push(theArray[0]);
+	    for (var i = 1; i < theArray.length; i++) { // start loop at 1 as element 0 can never be a duplicate
+	        if (theArray[i-1].importer1 !== theArray[i].importer1) {
+	            ret.push(theArray[i]);
+	        }
+	    }
+	}
+    return ret;
+}
+
+function getSelectedCase(index)
+{
+	var theArray = getPrimaryCasesArray();
+
+	if(index < theArray.length)
+	{
+		return theArray[index].importer1;
 	}
 	return 0;
+}
+
+var isPlaying = false;
+function playTimeLine()
+{
+	if(isPlaying == false)
+	{
+		progressTimeLine(true);
+	}
+	else
+	{
+		parentHtml.getElementById('iframe2').contentWindow.document.getElementById('playButton').innerHTML = 'Play Timeline';
+		isPlaying = false;
+	}
+}
+
+function progressTimeLine(start)
+{
+	var stepObj = {};
+	if(isPlaying == false && start == true)
+	{
+		//Start playing!
+		parentHtml.getElementById('iframe2').contentWindow.document.getElementById('playButton').innerHTML = 'Stop Timeline';
+		stepObj = parentHtml.defaultView.moveTimeSlider(0);
+		isPlaying = true;
+	}
+	else if(isPlaying == false && start == false)
+	{
+		//not currently playing and not starting a new time line, so don't start playing.
+		return;
+	}
+	else
+	{
+		stepObj = parentHtml.defaultView.moveTimeSlider(+1);
+	}
 	
+	if(stepObj.steps == stepObj.currentStep)
+	{
+		//Stop Playing.
+		isPlaying = false;
+		parentHtml.getElementById('iframe2').contentWindow.document.getElementById('playButton').innerHTML = 'Play Timeline';
+	}
+	else
+	{
+		setTimeout(progressTimeLine, 4000, false);
+	}
+}
+
+function stopTimeLine()
+{
+	isPlaying = false;
 }

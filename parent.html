@@ -87,7 +87,6 @@ a:hover, #author3:hover {
 <script>
 function onSubmit()
 {
-	//parent.onSubmit();
 	dataSubmitted();
 }
 
@@ -101,7 +100,7 @@ function onSubmit()
 
 	
 <div id="container" style="width:1272px;height:700px;margin:0px;">
-<div id="title" style="position:fixed;left:260px;z-index:-1;font-size:48px;text-align:center;margin-top:70px;color:#092331;opacity:0;">Judicial Case<br>Law Citations</div>
+<div id="title" style="position:fixed;left:260px;z-index:-1;font-size:48px;text-align:center;margin-top:10px;color:#092331;opacity:0;">Judicial Case<br>Law Citations</div>
 <div id="bigyear" style="position:fixed;left:175px;z-index:100;font-size:200px;text-align:center;margin-top:160px;color:#000;opacity:0;visibility:hidden;">Welcome</div>
 <div id="author" style="position:fixed;left:385px;z-index:100;font-size:48px;text-align:center;margin-top:573px;color:092331;opacity:0;">
 	
@@ -111,8 +110,9 @@ function onSubmit()
 <div id="author2" style="position:fixed;left:5px;z-index:100;font-size:48px;text-align:center;margin-top:562px;color:#111;opacity:0;">
 	
 	<a href="http://www.delimited.io/blog/2014/11/18/interactive-chord-diagrams-in-d3" target="_blank" title="inspired by"><div style="color:3D5C6D;">inspired by</div>delimited.io</a><br>
-
-	
+	<a href="http://colorbrewer2.org/" target="_blank" title="chord colors by"><div style="color:3D5C6D;">chord colors by</div>colorbrewer2.org</a><br>
+	<a href="http://knomos.ca/" target="_blank" title="data from"><div style="color:3D5C6D;">data from</div>knomos.ca</a><br>
+		
 </div>
 <div id="author3" style="position:fixed;right:10px;z-index:100;font-size:28px;text-align:center;margin-top:620px;color:092331;opacity:0;cursor:pointer;" onclick="window.parent.document.getElementById('content').src='parent.html'" title="reload page">
 	reload page
@@ -127,7 +127,7 @@ function onSubmit()
 </div>
 
 <div  id="bigyear2"  class="dragdealer" style="bottom:0px;left:0px;width:100%;position:fixed;opacity:0; background-color:#ddd;z-index:5000;"></div>
-<div  id="timeslider" title="<-  drag slider, scroll or use arrow keys to change year  ->" class="dragdealer" style="bottom:0px;left:0px;width:100%;position:fixed;opacity:0;">
+<div  id="timeslider" title="<-  drag slider, scroll or use arrow keys to change year  ->" class="dragdealer" style="bottom:0px;left:0px;width:100%;position:fixed;opacity:0;font-size:18px;">
 <div style="position:fixed;left:5%;z-index:-1;font-size:100%;color:#092331;margin-top:0.4%;"><-  drag slider, scroll or use arrow keys to change year  -></div>
 <div class="handle orange-bar" id="timehandle" style="text-align:center;vertical-align: middle;height:100%">2014</div>
 </div>
@@ -149,22 +149,20 @@ function trans(){
 
 var timedragdealer=new Dragdealer("timeslider", {
 	x: 1,
-	steps: 2014-1951+1,
+	steps: 1,
 	animationCallback: function(a, b) {
 		var theSteps = 1;
-		if(timedragdealer)
-		{
-			theSteps = timedragdealer.options.steps;
-		}
-		document.getElementById('timehandle').innerHTML=getSelectedCase(Math.round(a*theSteps));
+		var currentStep = this.getStep()[0];
+
+		document.getElementById('timehandle').innerHTML=getSelectedCase(currentStep - 1);
 	},
 	callback: function(a, b) {
-		
+		var currentStep = this.getStep()[0];
 		var theSteps = timedragdealer.options.steps;
-		document.getElementById('iframe1').contentWindow.angular.element("body").scope().selected_year=getSelectedCase(Math.round(a * theSteps));
+		document.getElementById('iframe1').contentWindow.angular.element("body").scope().selected_year=getSelectedCase(currentStep - 1);
 		document.getElementById('iframe1').contentWindow.angular.element("body").scope().update();
 		
-		document.getElementById('bigyear').innerHTML=getSelectedCase(Math.round(a * theSteps));
+		document.getElementById('bigyear').innerHTML=getSelectedCase(currentStep - 1);
 		
 		setTimeout(function(){
 			setTimeout(function(){
@@ -180,43 +178,86 @@ var timedragdealer=new Dragdealer("timeslider", {
 	}
 });
 
-
-
 function updateTimeSlider(newNumberOfSteps)
 {
 	document.getElementById('timeslider').style.opacity=1;
 	timedragdealer.options.steps = newNumberOfSteps;
  	timedragdealer.init();
- 	timedragdealer.setValue(0.0);
+ 	//timedragdealer.setValue(0.0);
+ 	document.getElementById('iframe2').contentWindow.document.getElementById('playButton').style.visibility = 'visible';
+ 	playTimeLine();
  
  	//need to set bigyear correctly here as well.
  	console.log(newNumberOfSteps);
 }
+
+function moveTimeSlider(direction)
+{
+	var currentStep = timedragdealer.getStep()[0];
+	var stepObj = {};
+	var nextStep = currentStep + direction;
+	stepObj.steps = timedragdealer.options.steps;
 	
-//   document.addEventListener("keydown", function ( event ) {
-// 	if (( event.keyCode >= 33 && event.keyCode <= 34 ) || (event.keyCode >= 37 && event.keyCode <= 40)) {
-// 		switch( event.keyCode ) {
-// 			case 34: // pg up
-// 			case 37: // left
-// 			case 38: // up
-// 					timedragdealer.setValue((Math.max(document.getElementById('timehandle').innerHTML-1,1951)-1951) / (2014-1951), 0, false)
-// 					 break;
-// 			case 33: // pg down
-// 			case 39: // right
-// 			case 40: // down 
-// 					 timedragdealer.setValue((document.getElementById('timehandle').innerHTML-1951+1) / (2014-1951), 0, false)
-// 					 break;
-// 		}
+	if(direction == 0)
+	{
+		//doing a bit of a hack for the play animation. If direction == 0, then start the timeline at 0.
+		nextStep = 1;
+		timedragdealer.setStep(1);
+	}
+	else if(nextStep <= 0 || nextStep > stepObj.steps)
+	{
+		//don't move!
+		nextStep = currentStep;
+	}
+	else
+	{
+		timedragdealer.setStep(nextStep);
+	}
+	
+	stepObj.currentStep = nextStep;
+
+	return stepObj;
+}
+
+function keyPresses( event ) 
+{
+	if (( event.keyCode >= 33 && event.keyCode <= 34 ) || (event.keyCode >= 37 && event.keyCode <= 40)) {
+		switch( event.keyCode ) {
+			case 34: // pg up
+			case 39: // right
+
+			case 38: // up
+			{		
+					moveTimeSlider(+1);
+					break;
+			}
+			case 33: // pg down
+			case 37: // left
+			case 40: // down 
+			{	
+					moveTimeSlider(-1);
+					break;
+			}
+		}
 		
-// 		event.preventDefault();
-// 	}
-//    }, false);
-   
-//    document.addEventListener("mousewheel", function ( event ) {
-// 	if (event.wheelDelta<0) timedragdealer.setValue((Math.max(document.getElementById('timehandle').innerHTML-1,1951)-1951) / (2014-1951), 0, false)
-// 	else timedragdealer.setValue((Math.min(document.getElementById('timehandle').innerHTML-1+2,2014)-1951) / (2014-1951), 0, false)
-// 	//event.preventDefault();
-//    }, false);
+		event.preventDefault();
+	}
+}
+	
+document.addEventListener("keydown", keyPresses, false);
+document.getElementById('iframe1').addEventListener("keydown", keyPresses, false);
+document.getElementById('iframe2').addEventListener("keydown", keyPresses, false);
+
+   document.addEventListener("mousewheel", function ( event ) {
+	if (event.wheelDelta<0) 
+	{
+		moveTimeSlider(-1);
+	}
+	else 
+	{
+		moveTimeSlider(+1);; 
+	}
+   }, false);
    
 			
 	var rescale = function() {
@@ -234,8 +275,10 @@ function updateTimeSlider(newNumberOfSteps)
 	document.getElementById("container").style.msTransformOrigin = "0 0";
 	document.getElementById("container").style.TransformOrigin = "0 0";
 	
+	document.getElementById("timeslider").style.fontSize = scal*20;
 	var targetDiv = document.getElementById("timeslider").getElementsByClassName("handle orange-bar")[0];
 	targetDiv.style.fontSize = scal*20;
+	
 	targetDiv.style.verticalAlign = "bottom";
 	};
 	

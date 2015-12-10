@@ -11,7 +11,7 @@ function ($window, matrixFactory) {
     dims[1] = size[1] - marg[0] - marg[2]; // HEIGHT
 
     var colors = d3.scale.ordinal()
-      .range(['#9C6744','#C9BEB9','#CFA07E','#C4BAA1','#C2B6BF','#8FB5AA','#85889E','#9C7989','#91919C','#99677B','#918A59','#6E676C','#6E4752','#6B4A2F','#998476','#8A968D','#968D8A','#968D96','#CC855C', '#967860','#929488','#949278','#A0A3BD','#BD93A1','#65666B','#6B5745','#6B6664','#695C52','#56695E','#69545C','#565A69','#696043','#63635C','#636150','#CFB6A3']);
+      .range(['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99','#b15928', '#8dd3c7','#ffffb3','#bebada','#fb8072','#80b1d3','#fdb462','#b3de69','#fccde5','#d9d9d9','#bc80bd','#ccebc5','#ffed6f', '#fbb4ae','#b3cde3','#ccebc5','#decbe4','#fed9a6','#ffffcc','#e5d8bd','#fddaec','#f2f2f2']);
 
     var chord = d3.layout.chord()
       .padding(0.04)
@@ -61,10 +61,10 @@ function ($window, matrixFactory) {
 
     var messages = svg.append("text")
       .attr("class", "messages")
-      .attr("transform", "translate(80,"+size[1]/1.1+")")
+      .attr("transform", "translate(0,"+size[1]/1.1+")")
 	  .style("fill","#5C7785")
 	  .style("font-size","30px")
-      .text("Please select a case...");
+      .text("Please select a case and hit search...");
 
     $scope.drawChords = function (data) {
 

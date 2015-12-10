@@ -27,17 +27,26 @@
 	</form>
 	
      
-   	<button class="orange-bar" onclick="onSubmit()" style="height:60px;width:150px;font-size:18px;margin-top:-25px;" >Search</button>
+   	<button class="orange-bar" onclick="onSubmit()" style="height:60px;width:180px;font-size:18px;margin-top:-25px;" >Search</button>
+   	<span style="color:#3D5C6D" id="errorMessage"></span>
+   	<br>
+   	
+  	<button class="orange-bar" onclick="playTimeLine()" id="playButton" style="height:60px;width:180px;font-size:18px;margin-top:0px;visibility:hidden;" >Stop Timeline</button>
 
 
 
-	<span style="color:#3D5C6D" id="errorMessage"></span>
 	
 <script>
+document.addEventListener("keydown", parent.keyPresses, false);
 function onSubmit()
 {
 	parent.onSubmit();
 	//dataSubmitted();
+}
+
+function playTimeLine()
+{
+	parent.playTimeLine();
 }
 
 </script>	
