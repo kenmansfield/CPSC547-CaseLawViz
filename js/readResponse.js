@@ -61,7 +61,12 @@ function statusFinishedLoading(data)
  
 function statusLoading(loadedIndex)
 {
-	parentHtml.getElementById('iframe2').contentWindow.document.getElementById("errorMessage").innerHTML = "Loading: " + loadedIndex;	
+	var loadingText = "Loading: " + loadIndex;
+	if(caseArray[0] && caseArray[0].length > 0)
+	{
+		loadingText = loadingText + "of " + caseArray[0].length;
+	}
+	parentHtml.getElementById('iframe2').contentWindow.document.getElementById("errorMessage").innerHTML = loadingText;	
 }
 
 function newRequest()
