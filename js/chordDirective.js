@@ -4,8 +4,9 @@ function ($window, matrixFactory) {
 
   var link = function ($scope, $el, $attr) {
 
-    var size = [850, 850]; // SVG SIZE WIDTH, HEIGHT
-    var marg = [60, 50, 50, -30]; // TOP, RIGHT, BOTTOM, LEFT
+    var size = [870, 870]; // SVG SIZE WIDTH, HEIGHT
+    //var marg = [60, 50, 50, -30]; // TOP, RIGHT, BOTTOM, LEFT
+    var marg = [90, 90, 90, 90];
     var dims = []; // USABLE DIMENSIONS
     dims[0] = size[0] - marg[1] - marg[3]; // WIDTH
     dims[1] = size[1] - marg[0] - marg[2]; // HEIGHT
@@ -99,7 +100,7 @@ function ($window, matrixFactory) {
         .on("mouseout", resetChords)
 		.style("fill", function (d) { return colors(d._id); })
         .text(function (d) {
-          return d._id;
+          return parent.getSoc(d._id);
         });
 
       groups.select("path")

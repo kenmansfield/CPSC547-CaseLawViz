@@ -17,7 +17,11 @@ var caseIndices = [];
 var namesArray = [];
 
 // This is the actual dependency matrix pushed to d3.
+// Not used anymore.
 var referenceMatrix = [];
+
+// We are using this now:
+var citedByArray = [];
 
 var chart;
 
@@ -25,6 +29,9 @@ var theUsername = "kenmansfield";
 var thePassword = "l1IJD9bzklvKHXto0lojGk78ujdzE7J7";
 
 var parentHtml;
+
+var caseNumber;
+var caseYear;
 
 function dataSubmitted()
 {
@@ -41,8 +48,8 @@ function dataSubmitted()
 	//d3.select('#chart_placeholder svg').remove();
 	var form = parentHtml.getElementById('iframe2').contentWindow.document.getElementById('inputForm');
 	
-	var caseNumber = form.theCaseNum.value;
-	var caseYear =  form.theCaseYear.value;
+	caseNumber = form.theCaseNum.value;
+	caseYear =  form.theCaseYear.value;
 	
 	url = "http://app.knomos.ca/api/cases/bcca/" + caseYear + 
 	"/" + caseNumber + "/citations";
@@ -99,8 +106,10 @@ function newRequest()
 
 function referenceLoad(response)
 {
-	caseArray.push(parseFunction(response, index));
-	
+	//deprecated
+	//caseArray.push(parseFunction(response, index));
+
+	caseArray.push(parseObject(response, index));
 	//okay, that response is hopefully parsed.
 	//parse everything that it has loaded.
 	
@@ -112,7 +121,9 @@ function referenceLoad(response)
 		//Next we need to build our dependency matrix.
 		//First, we need the labels for each.
 		//need to go through entire array to get unique id's.
-		createUniqueNameList();
+		
+		//deprecated.
+		//createUniqueNameList();
 		
 		//now build our matrix!
 		//referenceMatrix = buildMatrix();
@@ -125,19 +136,26 @@ function referenceLoad(response)
 		return;
 	}
 	
-	caseIndices.push(caseArray[0][index].case_year + "-" + caseArray[0][index].case_num);
+
+	var caseToQuery = caseArray[0][index].cites;
+	if(caseToQuery.year == caseYear && caseToQuery.case_num == caseNumber)
+	{
+		caseToQuery = caseArray[0][index].cited_by;
+	}
+
+	//deprecated
+	//caseIndices.push(caseArray[0][index].case_year + "-" + caseArray[0][index].case_num);
+	//url = "http://app.knomos.ca/api/cases/bcca/" + caseArray[0][index].case_year + "/" + caseArray[0][index].case_num + "/citations";
 	
-	url = "http://app.knomos.ca/api/cases/bcca/" + caseArray[0][index].case_year + 
-		"/" + caseArray[0][index].case_num + "/citations";
-		
+	url = "http://app.knomos.ca/api/cases/bcca/" + caseToQuery.year + "/" + caseToQuery.case_num + "/citations";
+	
 	index++;
 	newRequest();
-
-	//increment so.
 }
 
 //This function stores all of the citations for that case into the
 //array at the index.
+/*//deprecated. this was what originally used for the BuildMatrix function.
 function parseFunction(response) 
 {
     var obj = JSON.parse(response);
@@ -151,6 +169,9 @@ function parseFunction(response)
 		caseObj.case_num = ref.target_case.case_num;
 		caseObj.case_year = ref.target_case.year;
 		caseObj.cited_by = false;
+		caseObj.soc1 = ref.target_case.soc;
+		caseObj.soc2 = ref.source_case.soc;
+		
 		if(caseObj.case_num && caseObj.case_year)
 		{
 			newCaseArray.push(caseObj);
@@ -166,7 +187,53 @@ function parseFunction(response)
 		caseObj.case_num = ref.source_case.case_num;
 		caseObj.cited_by = true;
 		caseObj.case_year = ref.source_case.year;
+		caseObj.soc = ref.source_case.soc;
+		
+		caseObj.soc2 = ref.target_case.soc;
+		
 		if(caseObj.case_num && caseObj.case_year)
+		{
+			newCaseArray.push(caseObj);
+		}
+	});
+	return newCaseArray;
+}*/
+
+//Creates new objects that contain a pair of cites and cited by cases with all necessary data.
+function parseObject(response) 
+{
+    var obj = JSON.parse(response);
+	var newCaseArray = [];
+	
+	//Cites
+	obj.general_case.outgoing.forEach(function(ref) 
+	{
+		console.log(ref.target_case.citation);
+		var caseObj = new Object();
+		caseObj.cites = ref.target_case;
+		
+		//This case.
+		caseObj.cited_by = ref.source_case;
+		
+		if(caseObj.cites.case_num && caseObj.cites.year)
+		{
+			newCaseArray.push(caseObj);
+		}
+	});
+
+	//Cited By.
+	obj.general_case.incoming.forEach(function(ref) 
+	{
+		var caseObj = new Object();
+		console.log(ref.source_case.citation);
+		
+		//This case.
+		caseObj.cites = ref.target_case;
+
+		caseObj.cited_by = ref.source_case;
+		
+		
+		if(caseObj.cited_by.case_num && caseObj.cited_by.year)
 		{
 			newCaseArray.push(caseObj);
 		}
@@ -181,8 +248,8 @@ function createUniqueNameList()
 	{
 		for(j = 0; j < caseArray[i].length; j++)
 		{
-			//probably need to change this to somethign more informative. 
-			var name = caseArray[i][j].case_year + "-" + caseArray[i][j].case_num;
+			//probably need to change this to something more informative. 
+			var name = caseArray[i][j].year + "-" + caseArray[i][j].case_num;
 			if(namesArray.indexOf(name) == -1)
 			{
 				namesArray.push(name);
@@ -190,7 +257,11 @@ function createUniqueNameList()
 		}
 	}
 }
-var loadedData = [];
+
+
+
+//Deprecated
+/*
 function buildMatrix()
 {
 	
@@ -240,6 +311,7 @@ function buildMatrix()
 	}
 	return retArray;
 }
+*/
 
 function doD3()
 {
@@ -261,39 +333,62 @@ function doD3()
 
 }
 
-var citedByArray = [];
 
+//Simple array that contains cites/cited by
 function LoadD3Data()
 {
-	for(i = 0; i < namesArray.length; i++)
+	//Need to flatten and reduce our 2D caseArray. 
+	//Reduce as in remove dupes, since case X cites case Y, then we query and parse case Y, which again has a cited by
+	//reference to case X.
+	var flatArray = [];
+	// We add + 1 because caseArray[0] contains its own citations in the first index
+	for(i = 0; i < caseArray[0].length + 1; i++)
 	{
-		var caseArrayIndice = caseIndices.indexOf(namesArray[i]);
-		
-		//Check if we find that array. of course we do, we put it in there.
-		if( caseArrayIndice >= 0 )
+		var tempArray = caseArray[i];
+		for(j = 0; j < tempArray.length; j++)
 		{
-			for(z = 0; z < caseArray[caseArrayIndice].length; z++)
+			flatArray.push(tempArray[j])
+		
+		}
+	}
+	//create an array without dupes
+	var uniqueArray = [];
+	for(x = 0; x < flatArray.length; x++)
+	{
+		var flatCase = flatArray[x];
+		var isUnique = true;
+		for(y = 0; y < uniqueArray.length; y++)
+		{
+			var uniqueCase = uniqueArray[y];
+			if(uniqueCase.cites.year == flatCase.cites.year && uniqueCase.cites.case_num == flatCase.cites.case_num)
 			{
-				var theCase = caseArray[caseArrayIndice][z];
-				var tempString = theCase.case_year + "-" + theCase.case_num;
-				
-				//if(tempString == namesArray[i])
+				if(uniqueCase.cited_by.year == flatCase.cited_by.year && uniqueCase.cited_by.case_num == flatCase.cited_by.case_num)
 				{
-					if(theCase.cited_by == false)
-					{
-						var obj = {};
-						obj.importer1 = namesArray[i];
-						obj.importer2 = tempString;
-						obj.flow1 = 3;
-						obj.flow2 = 1;
-						obj.year = theCase.case_year;
-						obj.cited_by = theCase.cited_by;
-						citedByArray.push(obj);
-					}
+					isUnique = false;
 				}
-			
 			}
 		}
+		if(isUnique)
+		{
+			uniqueArray.push(flatCase);
+		}
+	}
+	
+	//Still need to build one more array!!! the data for the chord matrix is different than our data 
+	//(maybe it should be changed? too much work for now).
+	//citedByArray 
+	for(z = 0; z < uniqueArray.length; z++)
+	{
+		var theCase = uniqueArray[z];
+		var obj = {};
+		obj.importer1 = theCase.cited_by.year + "-" + theCase.cited_by.case_num;
+		obj.importer2 = theCase.cites.year + "-" + theCase.cites.case_num; 
+		obj.flow1 = 1;
+		obj.flow2 = 4;
+		obj.year = theCase.cites.year;
+		obj.soc1 = theCase.cited_by.soc;
+		obj.soc2 = theCase.cites.soc; 
+		citedByArray.push(obj);
 	}
 	
 	parentHtml.defaultView.updateTimeSlider(getPrimaryCasesArray().length);
@@ -310,12 +405,11 @@ function compare(a,b) {
 
 function getPrimaryCasesArray()
 {
-	var ret;
+	var ret = [];
 	if(citedByArray)
 	{
 		var theArray = citedByArray.sort(compare);
-	
-	    var ret = [];
+		if(theArray == null) {return ret;}
 	    ret.push(theArray[0]);
 	    for (var i = 1; i < theArray.length; i++) { // start loop at 1 as element 0 can never be a duplicate
 	        if (theArray[i-1].importer1 !== theArray[i].importer1) {
@@ -328,9 +422,15 @@ function getPrimaryCasesArray()
 
 function getSelectedCase(index)
 {
+	if(isNaN(index))
+	{
+		index = 0;
+	}
+	//occcasionaly this number is coming in as a float and causing an exception.
+	index = Math.round(index);
 	var theArray = getPrimaryCasesArray();
 
-	if(index < theArray.length)
+	if(typeof theArray[index] !== 'undefined' && index < theArray.length)
 	{
 		return theArray[index].importer1;
 	}
@@ -386,4 +486,141 @@ function progressTimeLine(start)
 function stopTimeLine()
 {
 	isPlaying = false;
+	makelist();
+}
+
+function getSoc(id)
+{
+	for(i = 0; i < citedByArray.length; i++)
+	{
+		var obj = citedByArray[i];
+
+
+		if(obj.importer1 == id)
+		{
+			return obj.soc1;
+		}
+		else if(obj.importer2 == id)
+		{
+			return obj.soc2;
+		}
+	}
+	return null;
+}
+
+function getAllCasesCitedBy(theCase)
+{
+	var ret = [];
+	for(i = 0; i < citedByArray.length; i++)
+	{
+		if(citedByArray[i].importer2 == theCase)
+		{
+			ret.push(citedByArray[i]);
+		}
+	}
+	return ret;
+}
+
+function getAllCasesCites(theCase)
+{
+	var ret = [];
+	for(i = 0; i < citedByArray.length; i++)
+	{
+		if(citedByArray[i].importer1 == theCase)
+		{
+			ret.push(citedByArray[i]);
+		}
+	}
+	return ret;
+}
+
+function removeCitationList()
+{
+	var listContainer = parentHtml.getElementById('refList')
+	while (listContainer.hasChildNodes()) {
+		listContainer.removeChild(listContainer.lastChild);
+	}
+}
+
+function showCitedBy(theCase)
+{
+	removeCitationList();
+	
+	var listContainer = parentHtml.getElementById('refList');
+	var listData = getAllCasesCitedBy(theCase);
+	var listData2 = getAllCasesCites(theCase);
+
+	if(listData[0] != null)
+	{
+		var title = parentHtml.createElement("label")
+		title.innerHTML = listData[0].importer2 + " (" + listData[0].soc2 + ")<br><br/>";
+		listContainer.appendChild(title);
+	}
+	else if(listData2[0] != null)
+	{
+		var title = parentHtml.createElement("label")
+		title.innerHTML = listData2[0].importer1 + " (" + listData2[0].soc1 + ")<br><br/>";
+		listContainer.appendChild(title);
+	}
+
+	if(listData[0] != null)
+	{	
+	    var label = parentHtml.createElement("label");
+	    label.innerHTML = "This case is cited By:";
+	    listContainer.appendChild(label);
+	
+
+	    // Make the list itself which is a <ul>
+	    var listElement = parentHtml.createElement("ul");
+	    
+	    // add it to the page
+	    listContainer.appendChild(listElement);
+	
+	    // Set up a loop that goes through the items in listItems one at a time
+	    var numberOfListItems = listData.length;
+	
+	
+	    for( var i =  0 ; i < numberOfListItems ; ++i){
+	
+	            // create a <li> for each one.
+	            var listItem = parentHtml.createElement("li");
+	
+	            // add the item text
+	            listItem.innerHTML = listData[i].importer1 + " (" + listData[i].soc1 + ")";
+	
+	            // add listItem to the listElement
+	            listElement.appendChild(listItem);
+	    }
+	}
+	
+	
+	if(listData2[0] != null)
+	{
+		
+	    var label = parentHtml.createElement("label");
+	    label.innerHTML = "This case cites:";
+	    listContainer.appendChild(label);
+	
+	    // Make the list itself which is a <ul>
+	    var listElement = parentHtml.createElement("ul");
+	    
+	    // add it to the page
+	    listContainer.appendChild(listElement);
+	
+	    // Set up a loop that goes through the items in listItems one at a time
+	    var numberOfListItems = listData2.length;
+	
+	
+	    for( var i =  0 ; i < numberOfListItems ; ++i){
+	
+	            // create a <li> for each one.
+	            var listItem = parentHtml.createElement("li");
+	
+	            // add the item text
+	            listItem.innerHTML = listData2[i].importer2 + " (" + listData2[i].soc2 + ")";
+	
+	            // add listItem to the listElement
+	            listElement.appendChild(listItem);
+	    }
+	}
 }
